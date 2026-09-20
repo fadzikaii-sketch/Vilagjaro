@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Világjáró MAX 🌍</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #07101f;
+    color: white;
+}
+
+/* NAV */
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(5,12,25,.96);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #00aeff;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 20px 50px;
+
+    background:
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2000&q=80");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero h1 {
+    font-size: clamp(45px,8vw,90px);
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 23px;
+    margin-bottom: 35px;
+}
+
+.button {
+    display: inline-block;
+    padding: 17px 35px;
+    border-radius: 40px;
+    background: #00aaff;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.button:hover {
+    transform: scale(1.08);
+    background: #008bd1;
+}
+
+/* SECTIONS */
+
+section {
+    padding: 90px 6%;
+}
+
+h2 {
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+/* KERESŐ */
+
+.search-box {
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 18px 22px;
+    border-radius: 35px;
+    border: 2px solid #263953;
+    background: #101d32;
+    color: white;
+    font-size: 18px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #00aaff;
+}
+
+/* ORSZÁGOK */
+
+.countries {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+    gap: 18px;
+}
+
+.country {
+    background: #101d32;
+    border: 1px solid #20314d;
+    border-radius: 16px;
+    padding: 22px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.country:hover {
+    transform: translateY(-6px);
+    border-color: #00aaff;
+    background: #14243d;
+}
+
+.country .flag {
+    font-size: 35px;
+}
+
+.country h3 {
+    margin-top: 10px;
+    font-size: 21px;
+}
+
+.country p {
+    color: #9eacc0;
+    margin-top: 7px;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.82);
+    z-index: 2000;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.modal-box {
+    max-width: 850px;
+    margin: 60px auto;
+    background: #101d32;
+    border-radius: 25px;
+    padding: 35px;
+    position: relative;
+    box-shadow: 0 20px 80px rgba(0,0,0,.5);
+}
+
+.close {
+    position: absolute;
+    right: 22px;
+    top: 15px;
+    font-size: 35px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close:hover {
+    color: white;
+}
+
+.modal h2 {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.info {
+    color: #aebbd0;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.sights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 18px;
+}
+
+.sight {
+    background: #17263d;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.sight img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.sight div {
+    padding: 16px;
+}
+
+.sight h3 {
+    margin-bottom: 7px;
+}
+
+.sight p {
+    color: #aebbd0;
+}
+
+/* ABOUT */
+
+.about {
+    background: #0b1729;
+    text-align: center;
+}
+
+.about p {
+    max-width: 800px;
+    margin: auto;
+    line-height: 1.8;
+    color: #c7d1df;
+    font-size: 18px;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 35px;
+    background: #050b15;
+    color: #8996aa;
+}
+
+/* MOBIL */
+
+@media(max-width:700px) {
+
+    nav {
+        padding: 0 18px;
+    }
+
+    nav a {
+        margin-left: 8px;
+        font-size: 13px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    section {
+        padding: 70px 18px;
+    }
+
+    .modal {
+        padding: 10px;
+    }
+
+    .modal-box {
+        padding: 25px 18px;
+        margin: 30px auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">🌍 Világjáró MAX</div>
+
+    <div>
+        <a href="#orszagok">Országok</a>
+        <a href="#rolunk">Rólunk</a>
+    </div>
+</nav>
+
+
+<header class="hero">
+
+    <div>
+
+        <h1>🌍 VILÁGJÁRÓ</h1>
+
+        <p>
+            Fedezd fel a világot egyetlen oldalon!
+        </p>
+
+        <a href="#orszagok" class="button">
+            Felfedezem 🚀
+        </a>
+
+    </div>
+
+</header>
+
+
+<section id="orszagok">
+
+    <h2>🌎 Fedezd fel az országokat</h2>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="search"
+            placeholder="🔎 Keress egy országot..."
+            oninput="searchCountries()"
+        >
+
+    </div>
+
+    <div class="countries" id="countries"></div>
+
+</section>
+
+
+<section id="rolunk" class="about">
+
+    <h2>✈️ Rólunk</h2>
+
+    <p>
+        A Világjáró MAX egy utazási oldal,
+        ahol országokat, városokat és híres
+        látnivalókat fedezhetsz fel.
+        Keress rá egy országra, és nézd meg,
+        milyen különleges helyeket találhatsz ott!
+    </p>
+
+</section>
+
+
+<footer>
+    🌍 Világjáró MAX
+    <br><br>
+    Fedezd fel a világot! ✈️
+</footer>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <span class="close" onclick="closeModal()">×</span>
+
+        <h2 id="modalTitle"></h2>
+
+        <p class="info" id="modalInfo"></p>
+
+        <div class="sights" id="sights"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const countries = [
+
+{
+name:"Olaszország",
+flag:"🇮🇹",
+capital:"Róma",
+info:"Történelmi városok, mediterrán tájak és világhírű műemlékek.",
+sights:[
+["Colosseum","Róma","https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=80"],
+["Velence","Velence","https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Franciaország",
+flag:"🇫🇷",
+capital:"Párizs",
+info:"Franciaország híres kultúrájáról, történelméről és gyönyörű városairól.",
+sights:[
+["Eiffel-torony","Párizs","https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=900&q=80"],
+["Louvre","Párizs","https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Japán",
+flag:"🇯🇵",
+capital:"Tokió",
+info:"Japánban a modern technológia és az ősi hagyományok különleges módon találkoznak.",
+sights:[
+["Tokió","Tokió","https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=900&q=80"],
+["Fudzsi","Honshu","https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Egyesült Államok",
+flag:"🇺🇸",
+capital:"Washington, D.C.",
+info:"Hatalmas ország különleges nagyvárosokkal és természeti csodákkal.",
+sights:[
+["New York","New York","https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=900&q=80"],
+["Grand Canyon","Arizona","https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Egyesült Királyság",
+flag:"🇬🇧",
+capital:"London",
+info:"Történelmi kastélyok, modern városok és különleges tájak.",
+sights:[
+["Big Ben","London","https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=80"],
+["Tower Bridge","London","https://images.unsplash.com/photo-1529655683826-aba9b3e77383?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Spanyolország",
+flag:"🇪🇸",
+capital:"Madrid",
+info:"Mediterrán hangulat, történelmi épületek és gyönyörű tengerpartok.",
+sights:[
+["Barcelona","Barcelona","https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=900&q=80"],
+["Sagrada Família","Barcelona","https://images.unsplash.com/photo-1583779457094-ab6f4e7f1c7d?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Brazília",
+flag:"🇧🇷",
+capital:"Brasília",
+info:"Hatalmas ország trópusi tájakkal, strandokkal és különleges városokkal.",
+sights:[
+["Megváltó Krisztus","Rio de Janeiro","https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=900&q=80"],
+["Copacabana","Rio de Janeiro","https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"India",
+flag:"🇮🇳",
+capital:"Újdelhi",
+info:"India rendkívül változatos kultúrával és lenyűgöző történelmi épületekkel rendelkezik.",
+sights:[
+["Tádzs Mahal","Agra","https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=80"],
+["Varanasi","Varanasi","https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Ausztrália",
+flag:"🇦🇺",
+capital:"Canberra",
+info:"Hatalmas ország különleges állatvilággal, tengerpartokkal és modern városokkal.",
+sights:[
+["Sydney Opera House","Sydney","https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d5?auto=format&fit=crop&w=900&q=80"],
+["Great Barrier Reef","Queensland","https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Görögország",
+flag:"🇬🇷",
+capital:"Athén",
+info:"Az ókori történelem, a görög szigetek és a mediterrán tájak országa.",
+sights:[
+["Akropolisz","Athén","https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=900&q=80"],
+["Santorini","Santorini","https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Egyiptom",
+flag:"🇪🇬",
+capital:"Kairó",
+info:"Az ókori civilizáció egyik legismertebb központja.",
+sights:[
+["Gízai piramisok","Gíza","https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=900&q=80"],
+["Szfinx","Gíza","https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Törökország",
+flag:"🇹🇷",
+capital:"Ankara",
+info:"Európa és Ázsia találkozási pontja gazdag történelemmel.",
+sights:[
+["Hagia Sophia","Isztambul","https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80"],
+["Kappadókia","Göreme","https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Románia",
+flag:"🇷🇴",
+capital:"Bukarest",
+info:"Kárpáti tájak, történelmi városok és különleges kastélyok.",
+sights:[
+["Bran kastély","Bran","https://images.unsplash.com/photo-1601000785686-c452c5f8a6a7?auto=format&fit=crop&w=900&q=80"],
+["Brassó","Brassó","https://images.unsplash.com/photo-1584646098378-0874589d76b1?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Magyarország",
+flag:"🇭🇺",
+capital:"Budapest",
+info:"Budapest, a Duna és számos történelmi látnivaló teszi különlegessé.",
+sights:[
+["Országház","Budapest","https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=900&q=80"],
+["Budai vár","Budapest","https://images.unsplash.com/photo-1549877452-9c387954fbc2?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Németország",
+flag:"🇩🇪",
+capital:"Berlin",
+info:"Modern nagyvárosok, kastélyok és gazdag európai történelem.",
+sights:[
+["Brandenburgi kapu","Berlin","https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=900&q=80"],
+["Neuschwanstein","Bajorország","https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Kanada",
+flag:"🇨🇦",
+capital:"Ottawa",
+info:"Hatalmas erdők, tavak, hegyek és modern városok országa.",
+sights:[
+["Niagara-vízesés","Ontario","https://images.unsplash.com/photo-1489447068241-b3490214e879?auto=format&fit=crop&w=900&q=80"],
+["Banff","Alberta","https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&w=900&q=80"]
+]
+},
+
+{
+name:"Mexikó",
+flag:"🇲🇽",
+capital:"Mexikóváros",
+info:"Ősi civilizációk, strandok és különleges kultúra.",
+sights:[
+["Chichén Itzá","Yucatán","https://images.unsplash.com/photo-1518638150340-f706e86654de?auto=format&fit=crop&w=900&q=80"],
+["Cancún","Quintana Roo","https://images.unsplash.com/photo-1552074284-5e88ef1aef18?auto=format&fit=crop&w=900&q=80"]
+]
+}
+
+];
+
+
+/* ORSZÁGOK MEGJELENÍTÉSE */
+
+function showCountries(list = countries) {
+
+    const container = document.getElementById("countries");
+
+    container.innerHTML = "";
+
+    if(list.length === 0) {
+
+        container.innerHTML =
+        "<p style='text-align:center;color:#9eacc0;'>😕 Nincs találat.</p>";
+
+        return;
+    }
+
+    list.forEach(country => {
+
+        const card = document.createElement("div");
+
+        card.className = "country";
+
+        card.innerHTML = `
+            <div class="flag">${country.flag}</div>
+            <h3>${country.name}</h3>
+            <p>🏙️ Főváros: ${country.capital}</p>
+        `;
+
+        card.onclick = () => openCountry(country);
+
+        container.appendChild(card);
+
+    });
+}
+
+
+/* KERESÉS */
+
+function searchCountries() {
+
+    const text =
+        document.getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered = countries.filter(country =>
+        country.name.toLowerCase().includes(text) ||
+        country.capital.toLowerCase().includes(text)
+    );
+
+    showCountries(filtered);
+}
+
+
+/* ORSZÁG MEGNYITÁSA */
+
+function openCountry(country) {
+
+    document.getElementById("modalTitle").innerText =
+        country.flag + " " + country.name;
+
+    document.getElementById("modalInfo").innerText =
+        "🏙️ Főváros: " + country.capital +
+        "\n\n" + country.info;
+
+    const sights =
+        document.getElementById("sights");
+
+    sights.innerHTML = "";
+
+    country.sights.forEach(place => {
+
+        sights.innerHTML += `
+            <div class="sight">
+
+                <img src="${place[2]}" alt="${place[0]}">
+
+                <div>
+                    <h3>📍 ${place[0]}</h3>
+                    <p>${place[1]}</p>
+                </div>
+
+            </div>
+        `;
+
+    });
+
+    document.getElementById("modal").style.display = "block";
+
+    document.body.style.overflow = "hidden";
+}
+
+
+/* BEZÁRÁS */
+
+function closeModal() {
+
+    document.getElementById("modal").style.display = "none";
+
+    document.body.style.overflow = "auto";
+}
+
+
+/* KATTINTÁS A HÁTTÉRRE */
+
+document.getElementById("modal").onclick = function(e) {
+
+    if(e.target === this) {
+        closeModal();
+    }
+
+};
+
+
+/* INDÍTÁS */
+
+showCountries();
+
+</script>
+
+</body>
+</html>
