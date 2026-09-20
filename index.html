@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Világjáró 🌍</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+:root{
+    --bg:#07111f;
+    --card:#10233a;
+    --text:#fff;
+    --muted:#b9c8d8;
+    --accent:#08aef5;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+}
+
+body.light{
+    --bg:#eef4f8;
+    --card:#fff;
+    --text:#102030;
+    --muted:#526273;
+}
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:20;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 6%;
+    background:rgba(5,12,22,.72);
+    backdrop-filter:blur(12px);
+}
+
+.logo{
+    font-size:23px;
+    font-weight:800;
+}
+
+.navlinks{
+    display:flex;
+    gap:22px;
+    align-items:center;
+}
+
+.navlinks a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.iconbtn{
+    border:0;
+    background:rgba(255,255,255,.14);
+    color:white;
+    border-radius:50%;
+    width:42px;
+    height:42px;
+    font-size:20px;
+}
+
+header{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:90px 20px 40px;
+    background:
+        linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.72)),
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2000&q=85")
+        center/cover fixed;
+}
+
+.hero{
+    max-width:850px;
+}
+
+.hero h1{
+    font-size:clamp(45px,9vw,85px);
+    margin-bottom:18px;
+}
+
+.hero p{
+    font-size:clamp(18px,3vw,25px);
+    margin-bottom:32px;
+}
+
+.button{
+    display:inline-block;
+    padding:15px 28px;
+    background:var(--accent);
+    color:white;
+    text-decoration:none;
+    border-radius:30px;
+    font-weight:bold;
+    border:0;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.button:hover{
+    transform:translateY(-3px) scale(1.04);
+}
+
+section{
+    padding:85px 7%;
+}
+
+.title{
+    text-align:center;
+    font-size:40px;
+    margin-bottom:14px;
+}
+
+.subtitle{
+    text-align:center;
+    color:var(--muted);
+    margin-bottom:35px;
+}
+
+.search{
+    max-width:650px;
+    margin:0 auto 40px;
+    display:flex;
+    gap:10px;
+}
+
+.search input{
+    width:100%;
+    padding:16px 20px;
+    border-radius:30px;
+    border:0;
+    outline:0;
+    font-size:16px;
+}
+
+.places{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:26px;
+}
+
+.card{
+    background:var(--card);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.content{
+    padding:23px;
+}
+
+.content h3{
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.location{
+    color:var(--muted);
+    margin-bottom:15px;
+}
+
+.content p{
+    color:var(--muted);
+    line-height:1.55;
+    margin-bottom:18px;
+}
+
+.noresult{
+    text-align:center;
+    color:var(--muted);
+    display:none;
+    margin:30px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    background:#040a12;
+    color:#93a4b7;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:50;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modalbox{
+    background:var(--card);
+    max-width:650px;
+    width:100%;
+    border-radius:24px;
+    padding:28px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    right:15px;
+    top:12px;
+    background:none;
+    border:0;
+    color:var(--text);
+    font-size:30px;
+    cursor:pointer;
+}
+
+.modalbox h2{
+    margin:15px 0;
+}
+
+.modalbox p{
+    color:var(--muted);
+    line-height:1.7;
+    margin-bottom:15px;
+}
+
+@media(max-width:650px){
+
+    nav{
+        padding:12px 4%;
+    }
+
+    .navlinks a{
+        display:none;
+    }
+
+    section{
+        padding:65px 5%;
+    }
+
+    .title{
+        font-size:32px;
+    }
+
+    .card img{
+        height:190px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+🌍 Világjáró
+</div>
+
+<div class="navlinks">
+
+<a href="#helyek">
+Úti célok
+</a>
+
+<a href="#rolunk">
+Rólunk
+</a>
+
+<button class="iconbtn" onclick="toggleTheme()">
+🌙
+</button>
+
+</div>
+
+</nav>
+
+
+<header>
+
+<div class="hero">
+
+<h1>
+🌍 VILÁGJÁRÓ
+</h1>
+
+<p>
+Fedezd fel a világ leglenyűgözőbb helyeit!
+</p>
+
+<a href="#helyek" class="button">
+Felfedezem 🚀
+</a>
+
+</div>
+
+</header>
+
+
+<section id="helyek">
+
+<h2 class="title">
+🏆 Kiemelt úti célok
+</h2>
+
+<p class="subtitle">
+Keress rá egy városra vagy látnivalóra!
+</p>
+
+
+<div class="search">
+
+<input
+id="search"
+type="search"
+placeholder="🔎 Például: Róma, Párizs, India..."
+>
+
+</div>
+
+
+<div class="places">
+
+
+<article class="card" data-search="colosseum róma olaszország">
+
+<img
+src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1000&q=85"
+alt="Colosseum"
+>
+
+<div class="content">
+
+<h3>
+🏛️ Colosseum
+</h3>
+
+<div class="location">
+Róma, Olaszország
+</div>
+
+<p>
+Az ókori Róma egyik legismertebb épülete, lenyűgöző történelmi múlttal.
+</p>
+
+<button class="button"
+onclick="openInfo(
+'Colosseum',
+'Róma, Olaszország',
+'A Colosseum az ókori Róma hatalmas amfiteátruma volt. Gladiátorjátékok és más nyilvános látványosságok helyszíne volt.'
+)">
+Felfedezem
+</button>
+
+</div>
+</article>
+
+
+<article class="card" data-search="eiffel torony párizs franciaország">
+
+<img
+src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=85"
+alt="Eiffel-torony"
+>
+
+<div class="content">
+
+<h3>
+🗼 Eiffel-torony
+</h3>
+
+<div class="location">
+Párizs, Franciaország
+</div>
+
+<p>
+Párizs egyik legismertebb jelképe, ahonnan csodálatos kilátás nyílik.
+</p>
+
+<button class="button"
+onclick="openInfo(
+'Eiffel-torony',
+'Párizs, Franciaország',
+'Az Eiffel-torony 1889-ben készült a párizsi világkiállításra, és ma Párizs egyik legismertebb jelképe.'
+)">
+Felfedezem
+</button>
+
+</div>
+</article>
+
+
+<article class="card" data-search="megváltó krisztus rio de janeiro brazilia">
+
+<img
+src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1000&q=85"
+alt="Rio de Janeiro"
+>
+
+<div class="content">
+
+<h3>
+🗿 Megváltó Krisztus
+</h3>
+
+<div class="location">
+Rio de Janeiro, Brazília
+</div>
+
+<p>
+A hatalmas szobor Rio egyik legismertebb látványossága.
+</p>
+
+<button class="button"
+onclick="openInfo(
+'Megváltó Krisztus',
+'Rio de Janeiro, Brazília',
+'A szobor a Corcovado-hegy tetején áll, és híres panorámát kínál Rio de Janeiróra.'
+)">
+Felfedezem
+</button>
+
+</div>
+</article>
+
+
+<article class="card" data-search="taj mahal agra india">
+
+<img
+src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1000&q=85"
+alt="Taj Mahal"
+>
+
+<div class="content">
+
+<h3>
+🏯 Taj Mahal
+</h3>
+
+<div class="location">
+Agra, India
+</div>
+
+<p>
+Lenyűgöző márványépület és India egyik legismertebb látnivalója.
+</p>
+
+<button class="button"
+onclick="openInfo(
+'Taj Mahal',
+'Agra, India',
+'A Taj Mahal fehér márványból épült mauzóleum, amely a mogul építészet egyik legismertebb emléke.'
+)">
+Felfedezem
+</button>
+
+</div>
+</article>
+
+
+<article class="card" data-search="szabadság szobor new york usa">
+
+<img
+src="https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=1000&q=85"
+alt="New York"
+>
+
+<div class="content">
+
+<h3>
+🗽 Szabadság-szobor
+</h3>
+
+<div class="location">
+New York, USA
+</div>
+
+<p>
+New York egyik legismertebb jelképe a Liberty Islanden.
+</p>
+
+<button class="button"
+onclick="openInfo(
+'Szabadság-szobor',
+'New York, USA',
+'A Szabadság-szobor a Liberty Islanden található, New York kikötőjében.'
+)">
+Felfedezem
+</button>
+
+</div>
+</article>
+
+
+</div>
+
+
+<div id="noresult" class="noresult">
+😕 Nincs találat.
+</div>
+
+</section>
+
+
+<section id="rolunk">
+
+<h2 class="title">
+✈️ A Világjáróról
+</h2>
+
+<p class="subtitle">
+Egy kis oldal a világ érdekes helyeinek felfedezéséhez.
+</p>
+
+</section>
+
+
+<footer>
+🌍 Világjáró • Fedezd fel a világot!
+</footer>
+
+
+<div
+class="modal"
+id="modal"
+onclick="if(event.target===this)closeInfo()"
+>
+
+<div class="modalbox">
+
+<button class="close" onclick="closeInfo()">
+×
+</button>
+
+<div style="font-size:40px">
+🌍
+</div>
+
+<h2 id="modalTitle"></h2>
+
+<p id="modalLocation"></p>
+
+<p id="modalText"></p>
+
+<button class="button" onclick="closeInfo()">
+Bezárás
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const search =
+document.getElementById('search');
+
+const cards =
+[...document.querySelectorAll('.card')];
+
+const noresult =
+document.getElementById('noresult');
+
+
+search.addEventListener('input',()=>{
+
+const q =
+search.value.toLowerCase().trim();
+
+let count = 0;
+
+cards.forEach(card=>{
+
+const ok =
+card.dataset.search.includes(q);
+
+card.style.display =
+ok ? 'block' : 'none';
+
+if(ok) count++;
+
+});
+
+noresult.style.display =
+count ? 'none' : 'block';
+
+});
+
+
+function openInfo(title,location,text){
+
+document.getElementById('modalTitle')
+.textContent = title;
+
+document.getElementById('modalLocation')
+.textContent = '📍 ' + location;
+
+document.getElementById('modalText')
+.textContent = text;
+
+document.getElementById('modal')
+.classList.add('show');
+
+}
+
+
+function closeInfo(){
+
+document.getElementById('modal')
+.classList.remove('show');
+
+}
+
+
+function toggleTheme(){
+
+document.body.classList.toggle('light');
+
+}
+
+
+document.addEventListener('keydown',e=>{
+
+if(e.key === 'Escape')
+closeInfo();
+
+});
+
+</script>
+
+</body>
+</html>
