@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Világjáró MAX 🌍</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #07111f;
+    color: white;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(5,12,24,.95);
+    backdrop-filter: blur(12px);
+    padding: 16px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+.hero {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px 20px;
+
+    background:
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.7)),
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2000&q=80");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero h1 {
+    font-size: clamp(45px,8vw,90px);
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    background: #08aef5;
+    color: white;
+    padding: 15px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background: #008bd0;
+}
+
+section {
+    padding: 70px 5%;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 35px;
+}
+
+.search-box {
+    max-width: 700px;
+    margin: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    font-size: 17px;
+}
+
+.countries {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.card {
+    background: #101e32;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    transition: .25s;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+}
+
+.flag {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    background: #17263b;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card h3 {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.info {
+    color: #cbd5e1;
+    line-height: 1.7;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.small-btn {
+    flex: 1;
+    padding: 11px;
+    border: none;
+    border-radius: 10px;
+    background: #08aef5;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.small-btn.map {
+    background: #263852;
+}
+
+.flight {
+    background: linear-gradient(135deg,#0b2743,#07111f);
+}
+
+.flight-box {
+    max-width: 800px;
+    margin: auto;
+    background: #101e32;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.flight-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.flight input,
+.flight select {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.flight-result {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #172b45;
+    line-height: 1.8;
+}
+
+.support {
+    max-width: 800px;
+    margin: auto;
+    background: #101e32;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.support input,
+.support textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-family: Arial;
+}
+
+.support textarea {
+    min-height: 130px;
+}
+
+.faq {
+    max-width: 850px;
+    margin: auto;
+}
+
+details {
+    background: #101e32;
+    margin-bottom: 10px;
+    padding: 18px;
+    border-radius: 12px;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 35px;
+    background: #040a13;
+    color: #94a3b8;
+}
+
+.loading {
+    text-align: center;
+    font-size: 22px;
+    padding: 50px;
+}
+
+@media(max-width:700px) {
+    nav {
+        display: none;
+    }
+
+    .flight-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        min-height: 70vh;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🌍 Világjáró MAX</div>
+
+    <nav>
+        <a href="#orszagok">Országok</a>
+        <a href="#repules">✈️ Repülés</a>
+        <a href="#support">💬 Support</a>
+    </nav>
+</header>
+
+
+<section class="hero">
+
+    <div>
+        <h1>🌍 VILÁGJÁRÓ MAX</h1>
+
+        <p>
+            Fedezd fel a világ országait egyetlen helyen!
+        </p>
+
+        <a href="#orszagok" class="btn">
+            Felfedezem 🚀
+        </a>
+    </div>
+
+</section>
+
+
+<section id="orszagok">
+
+    <h2 class="section-title">
+        🌎 A világ országai
+    </h2>
+
+    <div class="search-box">
+        <input
+            id="search"
+            type="text"
+            placeholder="🔎 Keress országra..."
+            oninput="kereses()"
+        >
+    </div>
+
+    <div id="countries" class="countries">
+
+        <div class="loading">
+            🌍 Országok betöltése...
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="repules" class="flight">
+
+    <h2 class="section-title">
+        ✈️ Repülőjegy-kereső
+    </h2>
+
+    <div class="flight-box">
+
+        <div class="flight-grid">
+
+            <div>
+                <label>Honnan?</label>
+                <input id="from" placeholder="Pl. Bukarest">
+            </div>
+
+            <div>
+                <label>Hová?</label>
+                <input id="to" placeholder="Pl. Róma">
+            </div>
+
+        </div>
+
+        <label>Indulás</label>
+        <input id="date" type="date">
+
+        <button class="btn" onclick="repuloKereses()">
+            ✈️ Repülőjárat keresése
+        </button>
+
+        <div id="flightResult" class="flight-result">
+
+            Add meg az indulási helyet, az úti célt és a dátumot.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="support">
+
+    <h2 class="section-title">
+        💬 Világjáró Support
+    </h2>
+
+    <div class="support">
+
+        <p style="margin-bottom:20px;">
+            Kérdésed van az oldallal vagy egy úti céllal kapcsolatban?
+            Írj nekünk!
+        </p>
+
+        <input
+            id="supportName"
+            placeholder="Neved"
+        >
+
+        <input
+            id="supportEmail"
+            type="email"
+            placeholder="E-mail címed"
+        >
+
+        <textarea
+            id="supportMessage"
+            placeholder="Miben segíthetünk?"
+        ></textarea>
+
+        <button class="btn" onclick="supportKuldes()">
+            📩 Üzenet küldése
+        </button>
+
+    </div>
+
+</section>
+
+
+<section>
+
+    <h2 class="section-title">
+        ❓ Gyakori kérdések
+    </h2>
+
+    <div class="faq">
+
+        <details>
+            <summary>Hány ország van a Világjáró MAX-ban?</summary>
+            <p>
+                Az oldal a világ országainak adatait automatikusan tölti be.
+            </p>
+        </details>
+
+        <details>
+            <summary>Valós repülőjegyárakat mutat?</summary>
+            <p>
+                A repülőjegyek ára folyamatosan változik, és függ az
+                útvonaltól, dátumtól, légitársaságtól és poggyásztól.
+                Ezért az oldal nem talál ki hamis árakat.
+            </p>
+        </details>
+
+        <details>
+            <summary>Mobiltelefonon is működik?</summary>
+            <p>
+                Igen. Az oldal mobilra, tabletre és számítógépre is
+                optimalizálva van.
+            </p>
+        </details>
+
+        <details>
+            <summary>Ingyenes az oldal?</summary>
+            <p>
+                Igen, a Világjáró MAX weboldal használata ingyenes.
+            </p>
+        </details>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    🌍 Világjáró MAX © 2026
+
+    <br><br>
+
+    Fedezd fel. Tervezz. Utazz. ✈️
+
+</footer>
+
+
+<script>
+
+let countries = [];
+
+
+// ==============================
+// ORSZÁGOK BETÖLTÉSE
+// ==============================
+
+async function orszagokBetoltese() {
+
+    const container = document.getElementById("countries");
+
+    try {
+
+        const response = await fetch(
+            "https://restcountries.com/v3.1/all?fields=name,capital,flags,population,currencies,languages,region,subregion,maps"
+        );
+
+        countries = await response.json();
+
+        countries.sort((a,b) =>
+            a.name.common.localeCompare(
+                b.name.common,
+                "hu"
+            )
+        );
+
+        megjelenites(countries);
+
+    } catch(error) {
+
+        container.innerHTML = `
+            <div class="loading">
+                ❌ Nem sikerült betölteni az országokat.<br><br>
+                Ellenőrizd az internetkapcsolatot!
+            </div>
+        `;
+
+    }
+
+}
+
+
+// ==============================
+// KÁRTYÁK
+// ==============================
+
+function megjelenites(lista) {
+
+    const container = document.getElementById("countries");
+
+    container.innerHTML = "";
+
+    lista.forEach(country => {
+
+        const nev =
+            country.name?.common || "Ismeretlen ország";
+
+        const capital =
+            country.capital?.[0] || "Nincs adat";
+
+        const population =
+            country.population
+            ? country.population.toLocaleString("hu-HU")
+            : "Nincs adat";
+
+        const currencies =
+            country.currencies
+            ? Object.values(country.currencies)
+                .map(c => c.name)
+                .join(", ")
+            : "Nincs adat";
+
+        const languages =
+            country.languages
+            ? Object.values(country.languages).join(", ")
+            : "Nincs adat";
+
+        const region =
+            country.region || "Nincs adat";
+
+        const flag =
+            country.flags?.svg ||
+            country.flags?.png ||
+            "";
+
+        const map =
+            country.maps?.googleMaps || "#";
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+
+            <img
+                class="flag"
+                src="${flag}"
+                alt="${nev} zászlaja"
+                loading="lazy"
+            >
+
+            <div class="card-content">
+
+                <h3>
+                    ${nev}
+                </h3>
+
+                <div class="info">
+
+                    🏙️ <b>Főváros:</b>
+                    ${capital}
+                    <br>
+
+                    👥 <b>Lakosság:</b>
+                    ${population}
+                    <br>
+
+                    💰 <b>Pénznem:</b>
+                    ${currencies}
+                    <br>
+
+                    🗣️ <b>Nyelv:</b>
+                    ${languages}
+                    <br>
+
+                    🌎 <b>Régió:</b>
+                    ${region}
+
+                </div>
+
+                <div class="card-buttons">
+
+                    <button
+                        class="small-btn"
+                        onclick="utazas('${encodeURIComponent(nev)}')"
+                    >
+                        ✈️ Utazás
+                    </button>
+
+                    <button
+                        class="small-btn map"
+                        onclick="window.open('${map}','_blank')"
+                    >
+                        🗺️ Térkép
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+// ==============================
+// KERESÉS
+// ==============================
+
+function kereses() {
+
+    const value =
+        document.getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const result =
+        countries.filter(country =>
+            country.name.common
+            .toLowerCase()
+            .includes(value)
+        );
+
+    megjelenites(result);
+
+}
+
+
+// ==============================
+// UTAZÁS
+// ==============================
+
+function utazas(country) {
+
+    country = decodeURIComponent(country);
+
+    document.getElementById("to").value =
+        country;
+
+    document.getElementById("repules")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+// ==============================
+// REPÜLŐJEGY
+// ==============================
+
+function repuloKereses() {
+
+    const from =
+        document.getElementById("from").value.trim();
+
+    const to =
+        document.getElementById("to").value.trim();
+
+    const date =
+        document.getElementById("date").value;
+
+    const result =
+        document.getElementById("flightResult");
+
+
+    if(!from || !to || !date) {
+
+        result.innerHTML =
+            "⚠️ Töltsd ki az összes mezőt!";
+
+        return;
+
+    }
+
+
+    const query =
+        encodeURIComponent(
+            `${from} ${to} ${date}`
+        );
+
+
+    result.innerHTML = `
+
+        🔎 <b>Útvonal:</b>
+        ${from} → ${to}
+
+        <br>
+
+        📅 <b>Dátum:</b>
+        ${date}
+
+        <br><br>
+
+        ✈️ Az aktuális repülőjegyárakat
+        élő repülőjegy-rendszerből kell lekérni.
+
+        <br><br>
+
+        <a
+            class="btn"
+            href="https://www.google.com/travel/flights?q=${query}"
+            target="_blank"
+        >
+            🔎 Repülőjáratok keresése
+        </a>
+
+    `;
+
+}
+
+
+// ==============================
+// SUPPORT
+// ==============================
+
+function supportKuldes() {
+
+    const name =
+        document.getElementById("supportName").value;
+
+    const email =
+        document.getElementById("supportEmail").value;
+
+    const message =
+        document.getElementById("supportMessage").value;
+
+
+    if(!name || !email || !message) {
+
+        alert(
+            "⚠️ Kérlek tölts ki minden mezőt!"
+        );
+
+        return;
+
+    }
+
+
+    const subject =
+        encodeURIComponent(
+            "Világjáró MAX Support"
+        );
+
+    const body =
+        encodeURIComponent(
+
+            `Név: ${name}\n` +
+            `E-mail: ${email}\n\n` +
+            `Üzenet:\n${message}`
+
+        );
+
+
+    window.location.href =
+        `mailto:fadzikaii@gmail.com?subject=${subject}&body=${body}`;
+
+}
+
+
+// ==============================
+// INDÍTÁS
+// ==============================
+
+orszagokBetoltese();
+
+</script>
+
+</body>
+</html>
